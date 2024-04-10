@@ -1,6 +1,19 @@
 const UserService = require('../Services/UserService');
 const { generateToken, verifyToken } = require('../Token');
 
+
+const findUser = async (req, res, next) => {
+  const { id } = req.params;
+  
+  const user = await UserService.findUser(+id);
+  
+  if (!user) return next({ error: 404, message: 'User does not exist' });
+
+  if (user.error) return next({ error: user.error, message: user.message });
+
+  return res.status(200).json(user);
+};
+
 const getLogin = async (req, res, next) => {
   const { email, password } = req.body;
   
@@ -17,18 +30,6 @@ const getLogin = async (req, res, next) => {
     token,
   };
   return res.status(200).json(objLocalStorage);
-};
-
-const findUser = async (req, res, next) => {
-  const { id } = req.params;
-  
-  const user = await UserService.findUser(+id);
-  
-  if (!user) return next({ error: 404, message: 'User does not exist' });
-
-  if (user.error) return next({ error: user.error, message: user.message });
-
-  return res.status(200).json(user);
 };
 
 const createUser = async (req, res, next) => {

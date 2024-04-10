@@ -6,9 +6,9 @@ const schema = Joi.object({
     'string.email': 'Invalid email format',
     'any.required': 'Email is required',
   }),
-  password: Joi.string().min(6).required().messages({
+  password: Joi.string().min(8).required().messages({
     'string.base': 'Password must be a string',
-    'string.min': 'Password must be longer than 5 characters',
+    'string.min': 'Password must be longer than, or equal to 8 characters',
     'any.required': 'Password is required',
   }),
 });

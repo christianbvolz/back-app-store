@@ -4,7 +4,8 @@ const { validationLogin, validationRegister } = require('../Middlewares/validati
 
 const route = Router();
 
-route.post('/register', UserController.createUser);
+route.post('/register', validationRegister, UserController.createUser);
 route.get('/login', validationLogin, UserController.getLogin);
+route.get('/validate', UserController.validateUser);
 
 module.exports = route;

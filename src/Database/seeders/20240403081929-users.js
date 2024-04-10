@@ -9,7 +9,7 @@ module.exports = {
         first_name: 'christian',
         last_name: 'volz',
         email: 'chris@test.com',
-        password: '94fea3a5c1a28e936b5e363f1780c5e7'
+        password: 'a7116dd5ecd1bf17e5d86d2369af9986'
       },
     ], {}),
 

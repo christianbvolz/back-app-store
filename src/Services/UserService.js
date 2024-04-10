@@ -1,5 +1,6 @@
 const { User } = require('../Database/models');
 const sequelize = require('sequelize');
+const { verifyToken } = require('../Token')
 const md5 = require('md5');
 
 const findUser = async (id) => {
@@ -18,7 +19,7 @@ const getLogin = async (email, password) => {
   const hashedPassword = md5(password);
   if (loginUser.password === hashedPassword) return loginUser;
   
-  return { error: 404, message: 'Senha incorreta' };
+  return { error: 404, message: 'Wrong password' };
 };
 
 const createUser = async (userName, firstName, lastName, email, password) => {
@@ -33,7 +34,6 @@ const createUser = async (userName, firstName, lastName, email, password) => {
 
   return createdUser;
 };
-
 
 module.exports = {
   findUser,
