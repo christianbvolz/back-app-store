@@ -3,9 +3,9 @@ const fs = require('fs');
 const mapProduct = (products, index) => 
   products.map((product) => ({
       title: product.title,
-      condition_id: 1,
+      condition_id: Math.floor((Math.random() * 2) + 1),
       category_id: index + 1,
-      seller_id: 1,
+      seller_id: Math.floor((Math.random() * 4) + 1),
       thumbnail: product.thumbnail,
       picture: product.thumbnail.replace('I','O'),
       price: product.price,
