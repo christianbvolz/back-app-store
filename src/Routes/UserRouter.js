@@ -7,5 +7,6 @@ const route = Router();
 route.post('/register', validationRegister, UserController.createUser);
 route.get('/login', validationLogin, UserController.getLogin);
 route.get('/validate', UserController.validateUser);
+route.get('/:id', UserController.findUser);
 
 module.exports = route;

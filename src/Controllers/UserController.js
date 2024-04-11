@@ -1,27 +1,33 @@
 const UserService = require('../Services/UserService');
+const { StatusCodes } = require('http-status-codes');
 const { generateToken, verifyToken } = require('../Token');
+const md5 = require('md5');
 
 
 const findUser = async (req, res, next) => {
   const { id } = req.params;
-  
+
+  if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
+
   const user = await UserService.findUser(+id);
   
-  if (!user) return next({ error: 404, message: 'User does not exist' });
+  if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User does not exist' });
 
   if (user.error) return next({ error: user.error, message: user.message });
 
-  return res.status(200).json(user);
+  return res.status(StatusCodes.OK).json(user);
 };
 
 const getLogin = async (req, res, next) => {
   const { email, password } = req.body;
   
-  const user = await UserService.getLogin(email, password);
-  
-  if (!user) return next({ error: 404, message: 'User does not exist' });
+  const user = await UserService.getLogin(email);
 
-  if (user.error) return next({ error: user.error, message: user.message });
+  if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User does not exist' });
+
+  const hashedPassword = md5(password);
+
+  if (user.password !== hashedPassword) return next({ error: StatusCodes.UNAUTHORIZED, message: 'Wrong password' });
 
   const token = generateToken({ id: user.id, email });
   const objLocalStorage = {
@@ -29,7 +35,7 @@ const getLogin = async (req, res, next) => {
     email,
     token,
   };
-  return res.status(200).json(objLocalStorage);
+  return res.status(StatusCodes.OK).json(objLocalStorage);
 };
 
 const createUser = async (req, res, next) => {
@@ -37,7 +43,7 @@ const createUser = async (req, res, next) => {
   
   const createdUser = await UserService.createUser(userName, firstName, lastName, email, password);
 
-  if (!createdUser) return next({ error: 409, message: 'User already exists.' });
+  if (!createdUser) return next({ error: StatusCodes.CONFLICT, message: 'User already exists.' });
 
   const { id } = createdUser;
 
@@ -48,19 +54,17 @@ const createUser = async (req, res, next) => {
     token,
   };
 
-  return res.status(201).json(objLocalStorage);
+  return res.status(StatusCodes.CREATED).json(objLocalStorage);
 };
 
 const validateUser = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization) return next({ error: 400, message: 'UNAUTHORIZED' });
-
   const authorized = verifyToken(authorization);
 
-  if (!authorized) return next({ error: 400, message: 'UNAUTHORIZED' });
+  if (!authorized) return next({ error: StatusCodes.UNAUTHORIZED, message: 'UNAUTHORIZED' });
 
-  return res.status(200).json(authorized);
+  return res.status(StatusCodes.OK).json(authorized);
 };
 
 

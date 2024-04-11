@@ -1,53 +1,25 @@
+const { StatusCodes } = require('http-status-codes');
 const LoginSchema = require('../Joi/LoginSchema');
 const RegisterSchema = require('../Joi/RegisterSchema');
 const getProductsSchema = require('../Joi/getProductsSchema');
 
-const statusErrorRedirect = require('../Joi/StatusError');
 
 
-const validationLogin = (req, _res, next) => {  
-  const { error } = LoginSchema.validate(req.body);
+const validator = (schema, values) => {
+  const { error } = schema.validate(values);
 
-  if (error !== undefined) {
-    const erroStatus = statusErrorRedirect(error.details[0].type);
-
-    const middlewareError = { error: erroStatus, message: error.details[0].message };
-
-    return next(middlewareError);
-  }
-
-  next();
+  if (error) return { error: StatusCodes.UNPROCESSABLE_ENTITY, message: error.details[0].message };
 };
 
-const validationRegister = (req, _res, next) => {  
-  const { error } = RegisterSchema.validate(req.body);
+const validationLogin = (req, _res, next) => next(validator(LoginSchema, req.body));
 
-  if (error !== undefined) {
-    const erroStatus = statusErrorRedirect(error.details[0].type);
+const validationRegister = (req, _res, next) => next(validator(RegisterSchema, req.body));
 
-    const middlewareError = { error: erroStatus, message: error.details[0].message };
+const validationGetProducts = (req, _res, next) => next(validator(getProductsSchema, req.query));
 
-    return next(middlewareError);
-  }
-
-  next();
-};
-
-const validationGetProducts = (req, _res, next) => {  
-  const { error } = getProductsSchema.validate(req.query);
-
-  if (error !== undefined) {
-    const erroStatus = statusErrorRedirect(error.details[0].type);
-
-    const middlewareError = { error: erroStatus, message: error.details[0].message };
-
-    return next(middlewareError);
-  }
-
-  next();
-};
 
 module.exports = {
   validationLogin,
   validationRegister,
+  validationGetProducts,
 };

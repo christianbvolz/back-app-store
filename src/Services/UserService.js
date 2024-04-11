@@ -1,25 +1,17 @@
 const { User } = require('../Database/models');
 const sequelize = require('sequelize');
-const { verifyToken } = require('../Token')
 const md5 = require('md5');
 
 const findUser = async (id) => {
   const loginUser = await User.findOne({ where: id });
 
-  if (!loginUser) return undefined;
-
   return loginUser;
 };
 
-const getLogin = async (email, password) => {
+const getLogin = async (email) => {
   const loginUser = await User.findOne({ where: { email } });
 
-  if (!loginUser) return undefined;
-  
-  const hashedPassword = md5(password);
-  if (loginUser.password === hashedPassword) return loginUser;
-  
-  return { error: 404, message: 'Wrong password' };
+  return loginUser;
 };
 
 const createUser = async (userName, firstName, lastName, email, password) => {

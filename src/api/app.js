@@ -3,6 +3,7 @@ const express = require('express');
 
 const UserRouter = require('../Routes/UserRouter');
 const ProductsRouter = require('../Routes/ProductsRouter');
+const { StatusCodes } = require('http-status-codes');
 
 const MiddlewareError = require('../Middlewares/MiddlewareError');
 
@@ -17,7 +18,7 @@ app.use('/user', UserRouter);
 app.use('/', ProductsRouter);
 app.use(MiddlewareError);
 
-app.get('/coffee', (_req, res) => res.status(418).json('coffee'));
+app.get('/coffee', (_req, res) => res.status(StatusCodes.IM_A_TEAPOT).end());
 
 
 module.exports = app;
