@@ -82,10 +82,25 @@ const getFavorites = async (req, res, next) => {
   return res.status(StatusCodes.OK).json(user.favorites);
 }
 
+const getProductReviewByUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
+  
+  const user = await UserService.getProductReviewByUser(+id);
+
+  if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User not found' });
+
+  if (user.reviews.length === 0) return next({ error: StatusCodes.NO_CONTENT, message: 'User does not have favorites' });
+
+  return res.status(StatusCodes.OK).json(user.reviews);
+}
+
 module.exports = {
   findUser,
   getLogin,
   createUser,
   validateUser,
   getFavorites,
+  getProductReviewByUser,
 };

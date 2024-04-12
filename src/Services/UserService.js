@@ -36,9 +36,19 @@ const getFavorites = async (id) => {
   return favorites;
 };
 
+const getProductReviewByUser = async (id) => {
+  const reviews = await User.findOne({
+    where: id,
+    include: ['reviews'],
+  });
+
+  return reviews;
+};
+
 module.exports = {
   findUser,
   getLogin,
   createUser,
   getFavorites,
+  getProductReviewByUser,
 };

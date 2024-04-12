@@ -12,12 +12,12 @@ const getProducts = async (req, res, next) => {
   return res.status(StatusCodes.OK).json(responseProducts);
 };
 
-const getProduct = async (req, res, next) => {
+const getProductById = async (req, res, next) => {
   const { id } = req.params;
 
   if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
 
-  const responseProduct = await ProductService.getProduct(+id);
+  const responseProduct = await ProductService.getProductById(+id);
   
   if (!responseProduct) return next({ error: StatusCodes.NO_CONTENT, message: 'Product does not exist' });
 
@@ -26,5 +26,5 @@ const getProduct = async (req, res, next) => {
 
 module.exports = {
   getProducts,
-  getProduct,
+  getProductById,
 };

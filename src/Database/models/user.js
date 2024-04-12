@@ -39,11 +39,15 @@ const buildModelUser = (sequelize, DataTypes) => {
     User.hasMany(models.Sale, { foreignKey: 'userId', as: 'userSales' });
     User.hasMany(models.Sale, { foreignKey: 'sellerId', as: 'sellerSales' });
     User.hasMany(models.Product, { foreignKey: 'sellerId', as: 'products' });
-    User.hasMany(models.ProductReview, { foreignKey: 'userId', as: 'productsReviews' });
     User.belongsToMany(models.Product, {
       through: models.Favorite,
       foreignKey: 'userId',
       as: 'favorites'
+    });
+    User.belongsToMany(models.Product, {
+      through: models.ProductReview,
+      foreignKey: 'userId',
+      as: 'reviews'
     });
   } 
 

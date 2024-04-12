@@ -34,7 +34,12 @@ const getProducts = async (categoryId, searchInput, conditionId, page, limit) =>
 };
 
 
-const getProduct = async (id) => {
+const getProductById = async (id) => {
+  include.push({
+    model: User,
+    as: 'reviews',
+    attributes: ['userName'],
+  });
   const product = await Product.findOne({
     where: id,
     include,
@@ -45,5 +50,5 @@ const getProduct = async (id) => {
 
 module.exports = {
   getProducts,
-  getProduct,
+  getProductById,
 };

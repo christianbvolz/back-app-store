@@ -5,7 +5,7 @@ const { StatusCodes } = require('http-status-codes');
 
 
 const createFavorite = async (req, res, next) => {
-  const { userId, productId } = req.query;
+  const { userId, productId } = req.body;
 
   const favorite = await FavoriteService.getFavorite(+userId, +productId);
 
@@ -15,7 +15,7 @@ const createFavorite = async (req, res, next) => {
 
   if (!user) return next({ error: StatusCodes.CONFLICT, message: 'User does not exists' });
 
-  const product = await ProductService.getProduct(+productId);
+  const product = await ProductService.getProductById(+productId);
 
   if (!product) return next({ error: StatusCodes.CONFLICT, message: 'Product does not exists' });
 
@@ -29,7 +29,7 @@ const deleteFavorite = async (req, res, next) => {
 
   if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
 
-  const response = await FavoriteService.deleteFavorite(+id);
+  await FavoriteService.deleteFavorite(+id);
   
   return res.status(StatusCodes.OK).json({ message: 'Favorite removed' });
 };
