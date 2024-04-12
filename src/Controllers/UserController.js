@@ -43,7 +43,7 @@ const createUser = async (req, res, next) => {
   
   const createdUser = await UserService.createUser(userName, firstName, lastName, email, password);
 
-  if (!createdUser) return next({ error: StatusCodes.CONFLICT, message: 'User already exists.' });
+  if (!createdUser) return next({ error: StatusCodes.CONFLICT, message: 'User already exists' });
 
   const { id } = createdUser;
 
@@ -68,9 +68,24 @@ const validateUser = async (req, res, next) => {
 };
 
 
+const getFavorites = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
+  
+  const user = await UserService.getFavorites(+id);
+
+  if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User not found' });
+
+  if (user.favorites.length === 0) return next({ error: StatusCodes.NO_CONTENT, message: 'User does not have favorites' });
+
+  return res.status(StatusCodes.OK).json(user.favorites);
+}
+
 module.exports = {
   findUser,
   getLogin,
   createUser,
   validateUser,
+  getFavorites,
 };

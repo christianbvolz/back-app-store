@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const LoginSchema = require('../Joi/LoginSchema');
 const RegisterSchema = require('../Joi/RegisterSchema');
 const getProductsSchema = require('../Joi/getProductsSchema');
+const createFavoriteSchema = require('../Joi/createFavoriteSchema');
 
 
 
@@ -17,9 +18,12 @@ const validationRegister = (req, _res, next) => next(validator(RegisterSchema, r
 
 const validationGetProducts = (req, _res, next) => next(validator(getProductsSchema, req.query));
 
+const validationCreateFavorite = (req, _res, next) => next(validator(createFavoriteSchema, req.query));
+
 
 module.exports = {
   validationLogin,
   validationRegister,
   validationGetProducts,
+  validationCreateFavorite,
 };

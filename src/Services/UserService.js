@@ -1,4 +1,4 @@
-const { User } = require('../Database/models');
+const { User, Favorite, Product } = require('../Database/models');
 const sequelize = require('sequelize');
 const md5 = require('md5');
 
@@ -27,8 +27,18 @@ const createUser = async (userName, firstName, lastName, email, password) => {
   return createdUser;
 };
 
+const getFavorites = async (id) => {
+  const favorites = await User.findOne({
+    where: id,
+    include: ['favorites'],
+  });
+
+  return favorites;
+};
+
 module.exports = {
   findUser,
   getLogin,
   createUser,
+  getFavorites,
 };

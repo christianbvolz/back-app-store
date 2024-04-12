@@ -4,6 +4,7 @@ const express = require('express');
 const UserRouter = require('../Routes/UserRouter');
 const ProductRouter = require('../Routes/ProductRouter');
 const CategoryRouter = require('../Routes/CategoryRouter');
+const FavoriteRouter = require('../Routes/FavoriteRouter');
 const { StatusCodes } = require('http-status-codes');
 
 const MiddlewareError = require('../Middlewares/MiddlewareError');
@@ -16,7 +17,8 @@ app.use(cors());
 
 app.use('/user', UserRouter);
 app.use('/categories', CategoryRouter);
-app.use('/', ProductRouter);
+app.use('/favorites', FavoriteRouter);
+app.use('/products', ProductRouter);
 app.use(MiddlewareError);
 
 app.get('/coffee', (_req, res) => res.status(StatusCodes.IM_A_TEAPOT).end());

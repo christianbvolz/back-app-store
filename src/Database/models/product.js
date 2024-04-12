@@ -64,8 +64,12 @@ const buildModelProduct = (sequelize, DataTypes) => {
     Product.belongsTo(models.User, { foreignKey: 'sellerId', as: 'seller' });
     Product.belongsTo(models.Condition, { foreignKey: 'conditionId', as: 'condition' });
     Product.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' });
-    Product.hasMany(models.Favorite, { foreignKey: 'productId', as: 'favorites' });
-    Product.hasMany(models.SaleProduct, { foreignKey: 'productId', as: 'salesProduct' }); 
+    Product.hasMany(models.SaleProduct, { foreignKey: 'productId', as: 'salesProduct' });
+    Product.belongsToMany(models.User, {
+      through: models.Favorite,
+      foreignKey: 'productId',
+      as: 'users'
+    });
   };  
 
   return Product;
