@@ -17,6 +17,7 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use('/images', express.static('src/images'));
 app.use('/user', UserRouter);
 app.use('/categories', CategoryRouter);
 app.use('/favorites', FavoriteRouter);

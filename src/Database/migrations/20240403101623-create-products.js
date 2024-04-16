@@ -15,14 +15,6 @@ module.exports = {
       price: {
         type: Sequelize.FLOAT,
       },
-      thumbnail: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      picture: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       sellerId: {
         type: Sequelize.INTEGER,
         field: 'seller_id',

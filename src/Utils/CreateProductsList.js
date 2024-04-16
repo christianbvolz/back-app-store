@@ -2,15 +2,15 @@ const fs = require('fs');
 
 const mapProduct = (products, index) => 
   products.map((product) => ({
-      title: product.title,
-      condition_id: Math.floor((Math.random() * 2) + 1),
-      category_id: index + 1,
-      seller_id: Math.floor((Math.random() * 4) + 1),
-      thumbnail: product.thumbnail,
-      picture: product.thumbnail.replace('I','O'),
-      price: product.price,
-  }));
-
+    title: product.title,
+    condition_id: Math.floor((Math.random() * 2) + 1),
+    category_id: index + 1,
+    seller_id: Math.floor((Math.random() * 4) + 1),
+    thumbnail: product.thumbnail,
+    picture: product.thumbnail.replace('I','O'),
+    price: product.price,
+  }) 
+);
 
 const getCategoriesIds = async () => {
   const response = await fetch('https://api.mercadolibre.com/sites/MLB/categories');
@@ -21,13 +21,11 @@ const getCategoriesIds = async () => {
   }, []);
 };
 
-
 const getProducts = async (categoryId) => {
   const response = await fetch(`https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`);
   const data = await response.json();
   return data.results;
 };
-
 
 const getProductslist = async () => {
   try {
@@ -38,18 +36,18 @@ const getProductslist = async () => {
         return mapProduct(products, index);
       })
     )
-    .then((values) => {
+    .then(async (values) => {
       const productsList = values.reduce((acc, arrayProducts) => {
         arrayProducts.forEach(product => acc.push(product));
         return acc;
       },[]);
+      console.log('productsList.length: ', productsList.length);
 
       fs.writeFile(__dirname + '/productList.json', JSON.stringify(productsList), (err) => {
         if (err) throw err;
       });
     });
-  } catch (error) {  
-  }
+  } catch (error) {}
 }
 
 getProductslist();

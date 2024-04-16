@@ -24,7 +24,17 @@ const getProductById = async (req, res, next) => {
   return res.status(StatusCodes.OK).json(responseProduct);
 };
 
+const createProduct = async (req, res, next) => {
+  const { title, price, sellerId, categoryId, conditionId } = req.query;
+  console.log(title, price, sellerId, categoryId, conditionId);
+  console.log(req.body);
+
+
+  return res.status(StatusCodes.OK).end();
+};
+
 module.exports = {
   getProducts,
   getProductById,
+  createProduct,
 };

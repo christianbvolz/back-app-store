@@ -4,6 +4,7 @@ const RegisterSchema = require('../Joi/RegisterSchema');
 const getProductsSchema = require('../Joi/getProductsSchema');
 const createFavoriteSchema = require('../Joi/createFavoriteSchema');
 const createProductReviewSchema = require('../Joi/createProductReviewSchema');
+const createProductSchema = require('../Joi/createProductSchema');
 
 
 
@@ -21,7 +22,9 @@ const validationGetProducts = (req, _res, next) => next(validator(getProductsSch
 
 const validationCreateFavorite = (req, _res, next) => next(validator(createFavoriteSchema, req.body));
 
-const validationcreateProductReview = (req, _res, next) => next(validator(createProductReviewSchema, req.body));
+const validationCreateProduct = (req, _res, next) => next(validator(createProductSchema, req.query));
+
+const validationCreateProductReview = (req, _res, next) => next(validator(createProductReviewSchema, req.body));
 
 
 module.exports = {
@@ -29,5 +32,6 @@ module.exports = {
   validationRegister,
   validationGetProducts,
   validationCreateFavorite,
-  validationcreateProductReview,
+  validationCreateProduct,
+  validationCreateProductReview,
 };

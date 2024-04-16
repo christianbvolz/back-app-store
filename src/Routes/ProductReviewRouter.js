@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const ProductReviewController = require('../Controllers/ProductReviewController');
-const { validationcreateProductReview } = require('../Middlewares/validations');
+const { validationCreateProductReview } = require('../Middlewares/validations');
 
 
 const route = Router();
 
-route.post('/', validationcreateProductReview, ProductReviewController.createProductReview);
+route.post('/', validationCreateProductReview, ProductReviewController.createProductReview);
 route.delete('/:id', ProductReviewController.deleteProductReview);
 
 module.exports = route;
