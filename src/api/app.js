@@ -17,6 +17,8 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/images', express.static('src/images'));
 app.use('/user', UserRouter);
 app.use('/categories', CategoryRouter);

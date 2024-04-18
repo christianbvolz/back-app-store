@@ -1,7 +1,13 @@
 const { ProductReview } = require('../Database/models');
 
 
-const getProductReview = async (userId, productId) => {
+const getProductReviewByPk = async (id) => {
+  const productReview = await ProductReview.findByPk(id);
+
+  return productReview;
+};
+
+const findProductReview = async (userId, productId) => {
   const productReview = await ProductReview.findOne({ where: { userId, productId } });
 
   return productReview;
@@ -21,7 +27,8 @@ const deleteProductReview = async (id) => {
 
 
 module.exports = {
-  getProductReview,
+  findProductReview,
   createProductReview,
   deleteProductReview,
+  getProductReviewByPk,
 };

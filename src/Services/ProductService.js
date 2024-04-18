@@ -48,7 +48,30 @@ const getProductById = async (id) => {
   return product;
 };
 
+const createProduct = async (title, price, sellerId, categoryId, conditionId) => {
+  const product = await Product.create({ title, price, sellerId, categoryId, conditionId });
+  
+  return product;
+};
+
+
+const deleteProduct = async (id) => {
+  const product = await Product.destroy({ where: { id } });
+
+  return product;
+};
+
+const updateProduct = async (changes) => {
+  const product = await Product.update(changes, { where: { id: changes.productId } });
+
+
+  return product;
+};
+
 module.exports = {
   getProducts,
   getProductById,
+  createProduct,
+  deleteProduct,
+  updateProduct
 };

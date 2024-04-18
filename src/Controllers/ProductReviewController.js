@@ -5,30 +5,39 @@ const { StatusCodes } = require('http-status-codes');
 
 
 const createProductReview = async (req, res, next) => {
-  const { comment, rate, userId, productId } = req.body;
+  const { comment, rate, productId } = req.body;
+  const { id: authorizedId } = req.authorized;
 
-  const productReviewService = await ProductReviewService.getProductReview(+userId, +productId);
+  const productReview = await ProductReviewService.findProductReview(authorizedId, +productId);
 
-  if (productReviewService) return next({ error: StatusCodes.CONFLICT, message: 'ProductReview already exists' });
+  if (productReview) return next({ error: StatusCodes.CONFLICT, message: 'ProductReview already exists' });
 
-  const user = await UserService.findUser(+userId);
+  const user = await UserService.findUser(authorizedId);
 
-  if (!user) return next({ error: StatusCodes.CONFLICT, message: 'User does not exists' });
+  if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User does not exists' });
 
   const product = await ProductService.getProductById(+productId);
 
-  if (!product) return next({ error: StatusCodes.CONFLICT, message: 'Product does not exists' });
+  if (!product) return next({ error: StatusCodes.NOT_FOUND, message: 'Product does not exists' });
 
   const createdProductReview = await ProductReviewService
-    .createProductReview(comment, rate, +userId, +productId);
+    .createProductReview(comment, rate, authorizedId, +productId);
 
   return res.status(StatusCodes.OK).json(createdProductReview);
 };
 
 const deleteProductReview = async (req, res, next) => {
   const { id } = req.params;
+  const { id: authorizedId } = req.authorized;
 
   if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
+
+  const productReview = await ProductReviewService.getProductReviewByPk(+id);
+
+  if (!productReview) return next({ error: StatusCodes.NOT_FOUND, message: 'Favorite does not exists' });
+
+  if (productReview.userId !== authorizedId)
+    return next({ error: StatusCodes.UNAUTHORIZED, message: 'Unauthorized user' });
 
   await ProductReviewService.deleteProductReview(+id);
   

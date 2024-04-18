@@ -67,13 +67,10 @@ const validateUser = async (req, res, next) => {
   return res.status(StatusCodes.OK).json(authorized);
 };
 
-
 const getFavorites = async (req, res, next) => {
-  const { id } = req.params;
-
-  if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
+  const { id: authorizedId } = req.authorized;
   
-  const user = await UserService.getFavorites(+id);
+  const user = await UserService.getFavorites(authorizedId);
 
   if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User not found' });
 
@@ -83,11 +80,9 @@ const getFavorites = async (req, res, next) => {
 }
 
 const getProductReviewByUser = async (req, res, next) => {
-  const { id } = req.params;
-
-  if (isNaN(+id)) return next({ error: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Id must be a number' });
+  const { id: authorizedId } = req.authorized;
   
-  const user = await UserService.getProductReviewByUser(+id);
+  const user = await UserService.getProductReviewByUser(authorizedId);
 
   if (!user) return next({ error: StatusCodes.NOT_FOUND, message: 'User not found' });
 

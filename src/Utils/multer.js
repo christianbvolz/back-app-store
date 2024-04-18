@@ -1,16 +1,24 @@
 const multer = require('multer');
 
-// Set up storage for uploaded files
+// Configuração de armazenamento
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
+    destination: function (req, file, cb) {
+        cb(null, 'src/images/')
+    },
+    filename: function (req, file, cb) {
+        // Extração da extensão do arquivo original:
+        const extensaoArquivo = file.originalname.split('.')[1];
+
+        // Cria um código randômico que será o nome do arquivo
+        const novoNomeArquivo = require('crypto')
+            .randomBytes(64)
+            .toString('hex');
+
+        // Indica o novo nome do arquivo:
+        cb(null, `${novoNomeArquivo}.${extensaoArquivo}`)
+    }
 });
 
-// Create the multer instance
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 module.exports = upload;
