@@ -7,6 +7,7 @@ const updateProductSchema = require('../Joi/updateProductSchema');
 const createFavoriteSchema = require('../Joi/createFavoriteSchema');
 const createProductReviewSchema = require('../Joi/createProductReviewSchema');
 const updateProductReviewSchema = require('../Joi/updateProductReviewSchema');
+const createSaleSchema = require('../Joi/createSaleSchema');
 const { verifyToken } = require('../Token')
 
 
@@ -46,6 +47,7 @@ const validationCreateProductReview = (req, _res, next) => next(validator(create
 
 const validationUpdateProductReview = (req, _res, next) => next(validator(updateProductReviewSchema, req.body));
 
+const validationCreateSale = (req, _res, next) => next(validator(createSaleSchema, req.body));
 
 module.exports = {
   validateAuthorization,
@@ -57,4 +59,5 @@ module.exports = {
   validationUpdateProduct,
   validationCreateProductReview,
   validationUpdateProductReview,
+  validationCreateSale,
 };

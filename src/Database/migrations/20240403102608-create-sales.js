@@ -19,17 +19,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      sellerId: {
-        type: Sequelize.INTEGER,
-        field: 'seller_id',
-        allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       totalPrice: {
         type: Sequelize.FLOAT,
         field: 'total_price',

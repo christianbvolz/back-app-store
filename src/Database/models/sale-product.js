@@ -1,5 +1,11 @@
 const buildModelSaleProduct = (sequelize, DataTypes) => {
   const SaleProduct = sequelize.define('SaleProduct', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
+    },
     saleId: {
       field: 'sale_id',
       type: DataTypes.INTEGER,

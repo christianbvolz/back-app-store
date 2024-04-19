@@ -17,17 +17,6 @@ const buildModelSale = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    sellerId: {
-      type: DataTypes.INTEGER,
-      field: 'seller_id',
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
-    },
     totalPrice: {
       type: DataTypes.FLOAT,
       field: 'total_price',
