@@ -72,15 +72,13 @@ const updateProduct = async (req, res, next) => {
   if (sellerId !== req.authorized.id)
     return next({ error: StatusCodes.UNAUTHORIZED, message: 'Product does not belong to the seller' });
   
-  const updatedProduct = await ProductService.updateProduct({
+  const [updated] = await ProductService.updateProduct({
     productId,
     title,
     price,
     categoryId,
     conditionId,
   });
-  
-  if (!updatedProduct) return next({ error: StatusCodes.NO_CONTENT, message: 'Product does not exist' });
 
   if(req.file) {
     const { path: filePath } = req.file;
@@ -94,7 +92,7 @@ const updateProduct = async (req, res, next) => {
     await removeFile(`src/images/${productId}-p.*`, newPicturePath);
   };
   
-  const message = (updatedProduct[0] === 1 || req.file) ? 'updated successfully' : 'No changes';
+  const message = ( updated || req.file) ? 'updated successfully' : 'No changes';
   return res.status(StatusCodes.OK).json({ message });
 };
 

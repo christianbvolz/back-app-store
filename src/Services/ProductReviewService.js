@@ -25,10 +25,17 @@ const deleteProductReview = async (id) => {
   return productReview;
 };
 
+const updateProductReview = async (changes) => {
+  const productReview = await ProductReview.update(changes, { where: { id: changes.reviewId } });
+
+  return productReview;
+};
+
 
 module.exports = {
   findProductReview,
   createProductReview,
   deleteProductReview,
   getProductReviewByPk,
+  updateProductReview,
 };

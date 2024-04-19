@@ -22,7 +22,7 @@ const createFavorite = async (req, res, next) => {
 
   const createdFavorite = await FavoriteService.createFavorite(+authorizedId, +productId);
 
-  return res.status(StatusCodes.OK).json(createdFavorite);
+  return res.status(StatusCodes.CREATED).json(createdFavorite);
 };
 
 const deleteFavorite = async (req, res, next) => {

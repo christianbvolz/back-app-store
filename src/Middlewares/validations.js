@@ -2,10 +2,11 @@ const { StatusCodes } = require('http-status-codes');
 const LoginSchema = require('../Joi/LoginSchema');
 const RegisterSchema = require('../Joi/RegisterSchema');
 const getProductsSchema = require('../Joi/getProductsSchema');
-const createFavoriteSchema = require('../Joi/createFavoriteSchema');
-const createProductReviewSchema = require('../Joi/createProductReviewSchema');
 const createProductSchema = require('../Joi/createProductSchema');
 const updateProductSchema = require('../Joi/updateProductSchema');
+const createFavoriteSchema = require('../Joi/createFavoriteSchema');
+const createProductReviewSchema = require('../Joi/createProductReviewSchema');
+const updateProductReviewSchema = require('../Joi/updateProductReviewSchema');
 const { verifyToken } = require('../Token')
 
 
@@ -43,6 +44,8 @@ const validationUpdateProduct = (req, _res, next) => next(validator(updateProduc
 
 const validationCreateProductReview = (req, _res, next) => next(validator(createProductReviewSchema, req.body));
 
+const validationUpdateProductReview = (req, _res, next) => next(validator(updateProductReviewSchema, req.body));
+
 
 module.exports = {
   validateAuthorization,
@@ -53,4 +56,5 @@ module.exports = {
   validationCreateProduct,
   validationUpdateProduct,
   validationCreateProductReview,
+  validationUpdateProductReview,
 };
