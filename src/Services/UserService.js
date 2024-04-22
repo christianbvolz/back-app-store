@@ -1,4 +1,4 @@
-const { User, Favorite, Product } = require('../Database/models');
+const { User, Sale, SaleProduct, Product, DeliveryStatus } = require('../Database/models');
 const sequelize = require('sequelize');
 const md5 = require('md5');
 
@@ -45,10 +45,38 @@ const getProductReviewByUser = async (id) => {
   return reviews;
 };
 
+const getSalesByUser = async (id) => {
+  const { userSales } = await User.findOne({
+    where: id,
+    include: [{
+      model: Sale,
+      as: 'userSales',
+      attributes: {exclude: ['userId', 'deliveryAddress', 'deliveryNumber']},
+      include: {
+        model: SaleProduct,
+        as: 'salesProduct',
+        attributes: {exclude: ['id', 'deliveryStatusId', 'saleId', 'productId']},
+        include: [{
+          model: DeliveryStatus,
+          as: 'deliveryStatus',
+          attributes: {exclude: ['id']},
+        },{
+          model: Product,
+          as: 'product',
+          attributes:  ['id', 'title', 'price'],
+        }],
+      }
+    }],
+  });
+
+  return userSales;
+};
+
 module.exports = {
   findUser,
   getLogin,
   createUser,
   getFavorites,
+  getSalesByUser,
   getProductReviewByUser,
 };

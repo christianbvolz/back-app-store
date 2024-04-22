@@ -30,8 +30,21 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      deliveryStatusId: {
+        field: 'delivery_status_id',
+        defaultValue: 1,
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        references: {
+          model: 'deliveryStatus',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       quantity: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
     });
   },

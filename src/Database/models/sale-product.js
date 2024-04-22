@@ -28,6 +28,18 @@ const buildModelSaleProduct = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
+    deliveryStatusId: {
+      type: DataTypes.INTEGER,
+      field: 'delivery_status_id',
+      allowNull: false,
+      defaultValue: 1,
+      references: {
+        model: 'status',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     quantity: {
       type: DataTypes.INTEGER,
     },
@@ -40,6 +52,7 @@ const buildModelSaleProduct = (sequelize, DataTypes) => {
   SaleProduct.associate = (models) => {   
     SaleProduct.belongsTo(models.Sale, { foreignKey: 'saleId', as: 'sale' });
     SaleProduct.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' });
+    SaleProduct.belongsTo(models.DeliveryStatus, { foreignKey: 'deliveryStatusId', as: 'deliveryStatus' });
   } 
 
   return SaleProduct;

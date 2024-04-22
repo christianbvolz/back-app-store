@@ -46,10 +46,19 @@ const buildModelProduct = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
+    createdAt: {
+      allowNull: false,
+      field: 'created_at',
+      type: DataTypes.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      field: 'updated_at',
+      type: DataTypes.DATE,
+    },
   }, {
     sequelize,
     tableName: 'products',
-    timestamps: false,
   });
 
   Product.associate = (models) => {

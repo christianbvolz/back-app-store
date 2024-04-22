@@ -2,7 +2,10 @@ const { StatusCodes } = require("http-status-codes");
 const { Sale, SaleProduct, sequelize } = require("../Database/models");
 
 const getSaleByPk = async (id) => {
-  const sale = await Sale.findByPk(id);
+  const sale = await Sale.findOne({
+    where: { id },
+    includes: 'salesProduct',
+  });
 
   return sale;
 };
@@ -11,14 +14,13 @@ const createSale = async ({
   userId,
   deliveryAddress,
   deliveryNumber,
-  status,
   totalPrice,
   products,
 }) => {
   const transaction = await sequelize.transaction();
   try {
     const createdSale = await Sale.create(
-      { userId, deliveryAddress, deliveryNumber, status, totalPrice },
+      { userId, deliveryAddress, deliveryNumber, totalPrice },
       { transaction }
     );
 
@@ -42,23 +44,23 @@ const createSale = async ({
   }
 };
 
+const updateSale = async (changes) => {
+  const updatedSale = await Sale.update(changes, {
+    where: { id: changes.saleId },
+  });
+  
+  return updatedSale;
+};
+
 const deleteSale = async (id) => {
   const sale = await Sale.destroy({ where: { id } });
 
   return sale;
 };
 
-const updateSale = async (changes) => {
-  const updatedSale = await Sale.update(changes, {
-    where: { id: changes.saleId },
-  });
-
-  return updatedSale;
-};
-
 module.exports = {
   getSaleByPk,
   createSale,
-  deleteSale,
   updateSale,
+  deleteSale,
 };

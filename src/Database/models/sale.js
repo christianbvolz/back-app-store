@@ -36,10 +36,6 @@ const buildModelSale = (sequelize, DataTypes) => {
       field: 'sale_date',
       defaultValue: DataTypes.NOW,
     },
-    status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     }, {
     sequelize,
     tableName: 'sales',
@@ -47,7 +43,6 @@ const buildModelSale = (sequelize, DataTypes) => {
   });
 
   Sale.associate = (models) => {   
-    Sale.belongsTo(models.User, { foreignKey: 'sellerId', as: 'seller' });
     Sale.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
     Sale.hasMany(models.SaleProduct, { foreignKey: 'saleId', as: 'salesProduct' });
   } 

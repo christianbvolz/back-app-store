@@ -1,13 +1,14 @@
 const { StatusCodes } = require('http-status-codes');
 const LoginSchema = require('../Joi/LoginSchema');
 const RegisterSchema = require('../Joi/RegisterSchema');
+const createSaleSchema = require('../Joi/createSaleSchema');
+const updateSaleSchema = require('../Joi/updateSaleSchema');
 const getProductsSchema = require('../Joi/getProductsSchema');
 const createProductSchema = require('../Joi/createProductSchema');
 const updateProductSchema = require('../Joi/updateProductSchema');
 const createFavoriteSchema = require('../Joi/createFavoriteSchema');
 const createProductReviewSchema = require('../Joi/createProductReviewSchema');
 const updateProductReviewSchema = require('../Joi/updateProductReviewSchema');
-const createSaleSchema = require('../Joi/createSaleSchema');
 const { verifyToken } = require('../Token')
 
 
@@ -35,29 +36,32 @@ const validationLogin = (req, _res, next) => next(validator(LoginSchema, req.bod
 
 const validationRegister = (req, _res, next) => next(validator(RegisterSchema, req.body));
 
-const validationGetProducts = (req, _res, next) => next(validator(getProductsSchema, req.query));
+const validationCreateSale = (req, _res, next) => next(validator(createSaleSchema, req.body));
 
-const validationCreateFavorite = (req, _res, next) => next(validator(createFavoriteSchema, req.body));
+const validationUpdateSale = (req, _res, next) => next(validator(updateSaleSchema, req.body));
+
+const validationGetProducts = (req, _res, next) => next(validator(getProductsSchema, req.query));
 
 const validationCreateProduct = (req, _res, next) => next(validator(createProductSchema, req.query));
 
 const validationUpdateProduct = (req, _res, next) => next(validator(updateProductSchema, req.query));
 
+const validationCreateFavorite = (req, _res, next) => next(validator(createFavoriteSchema, req.body));
+
 const validationCreateProductReview = (req, _res, next) => next(validator(createProductReviewSchema, req.body));
 
 const validationUpdateProductReview = (req, _res, next) => next(validator(updateProductReviewSchema, req.body));
 
-const validationCreateSale = (req, _res, next) => next(validator(createSaleSchema, req.body));
-
 module.exports = {
-  validateAuthorization,
   validationLogin,
   validationRegister,
+  validationCreateSale,
+  validationUpdateSale,
+  validateAuthorization,
   validationGetProducts,
-  validationCreateFavorite,
   validationCreateProduct,
   validationUpdateProduct,
+  validationCreateFavorite,
   validationCreateProductReview,
   validationUpdateProductReview,
-  validationCreateSale,
 };

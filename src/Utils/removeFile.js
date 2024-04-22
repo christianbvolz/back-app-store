@@ -1,14 +1,11 @@
 const { glob } = require('glob');
-const fs = require('fs');
+const fs = require('fs').promises;
 
 const removeFile = async (pathToRemove, notRemove) => {
   await glob(pathToRemove).then((paths) => {
-    paths.forEach((path) => {
+    paths.forEach(async (path) => {
       if (path !== notRemove) {
-        fs.unlink(path, function (err) {
-          if (err) throw err;
-          console.log(path, ' File deleted!');
-        });
+        await fs.unlink(path);
       };
     });
   });

@@ -77,7 +77,7 @@ const getFavorites = async (req, res, next) => {
   if (user.favorites.length === 0) return next({ error: StatusCodes.NO_CONTENT, message: 'User does not have favorites' });
 
   return res.status(StatusCodes.OK).json(user.favorites);
-}
+};
 
 const getProductReviewByUser = async (req, res, next) => {
   const { id: authorizedId } = req.authorized;
@@ -89,7 +89,17 @@ const getProductReviewByUser = async (req, res, next) => {
   if (user.reviews.length === 0) return next({ error: StatusCodes.NO_CONTENT, message: 'User does not have favorites' });
 
   return res.status(StatusCodes.OK).json(user.reviews);
-}
+};
+
+const getOrders = async (req, res, next) => {
+  const { id: authorizedId } = req.authorized;
+  
+  const userSales = await UserService.getSalesByUser(authorizedId);
+
+  if (userSales.length === 0) return next({ error: StatusCodes.NO_CONTENT, message: 'User does not have orders' });
+
+  return res.status(StatusCodes.OK).json(userSales);
+};
 
 module.exports = {
   findUser,
@@ -98,4 +108,5 @@ module.exports = {
   validateUser,
   getFavorites,
   getProductReviewByUser,
+  getOrders,
 };

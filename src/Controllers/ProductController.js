@@ -35,13 +35,11 @@ const createProduct = async (req, res, next) => {
 
   const { path: filePath } = req.file;
   
-  const createdProduct = await ProductService.createProduct(title, +price, +sellerId, +categoryId, +conditionId);
-  
-  const fileExtension = req.file.originalname.split('.')[1];
+  const createdProduct = await ProductService.createProduct(title, +price, +sellerId, +categoryId, +conditionId); 
 
   const createdProductId = createdProduct.id;
 
-  const picturePath = `src/images/${createdProductId}-p.${fileExtension}`
+  const picturePath = `src/images/${createdProductId}-jpg`;
 
   fs.renameSync(filePath, picturePath);
 
@@ -83,9 +81,7 @@ const updateProduct = async (req, res, next) => {
   if(req.file) {
     const { path: filePath } = req.file;
 
-    const fileExtension = req.file.originalname.split('.')[1];
-
-    const newPicturePath = `src/images/${productId}-p.${fileExtension}`;
+    const newPicturePath = `src/images/${productId}-p.jpg`;
 
     fs.renameSync(filePath, newPicturePath);
     

@@ -38,10 +38,6 @@ module.exports = {
         field: 'sale_date',
         defaultValue: Sequelize.NOW,
       },
-      status: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
     });
   },
   down: async (queryInterface, _Sequelize) => {
