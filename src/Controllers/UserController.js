@@ -1,4 +1,5 @@
 const UserService = require('../Services/UserService');
+const SaleProductService = require('../Services/SaleProductService');
 const { StatusCodes } = require('http-status-codes');
 const { generateToken, verifyToken } = require('../Token');
 const md5 = require('md5');
@@ -101,6 +102,16 @@ const getOrders = async (req, res, next) => {
   return res.status(StatusCodes.OK).json(userSales);
 };
 
+const getSalesProducts = async (req, res, next) => {
+  const { id: authorizedId } = req.authorized;
+  
+  const userSalesProducts = await SaleProductService.getSalesProducts(authorizedId);
+
+  if (userSalesProducts.length === 0) return next({ error: StatusCodes.NO_CONTENT, message: 'User does not have orders' });
+
+  return res.status(StatusCodes.OK).json(userSalesProducts);
+};
+
 module.exports = {
   findUser,
   getLogin,
@@ -108,5 +119,6 @@ module.exports = {
   validateUser,
   getFavorites,
   getProductReviewByUser,
+  getSalesProducts,
   getOrders,
 };

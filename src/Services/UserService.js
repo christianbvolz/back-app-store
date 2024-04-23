@@ -51,11 +51,11 @@ const getSalesByUser = async (id) => {
     include: [{
       model: Sale,
       as: 'userSales',
-      attributes: {exclude: ['userId', 'deliveryAddress', 'deliveryNumber']},
+      attributes: { exclude: ['userId', 'deliveryAddress', 'deliveryNumber'] },
       include: {
         model: SaleProduct,
         as: 'salesProduct',
-        attributes: {exclude: ['id', 'deliveryStatusId', 'saleId', 'productId']},
+        attributes: { exclude: ['id', 'deliveryStatusId', 'saleId', 'productId'] },
         include: [{
           model: DeliveryStatus,
           as: 'deliveryStatus',
