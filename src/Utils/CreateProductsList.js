@@ -9,6 +9,7 @@ const mapProduct = (products, index) =>
     thumbnail: product.thumbnail,
     picture: product.thumbnail.replace('I','O'),
     price: product.price,
+    quantity: Math.floor((Math.random() * 100) + 1),
   }) 
 );
 

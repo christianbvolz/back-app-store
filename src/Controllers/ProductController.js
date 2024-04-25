@@ -27,7 +27,7 @@ const getProductById = async (req, res, next) => {
 };
 
 const createProduct = async (req, res, next) => {
-  const { title, price, categoryId, conditionId } = req.query;
+  const { title, price, quantity, categoryId, conditionId } = req.query;
 
   const { id: sellerId } = req.authorized;
 
@@ -35,11 +35,11 @@ const createProduct = async (req, res, next) => {
 
   const { path: filePath } = req.file;
   
-  const createdProduct = await ProductService.createProduct(title, +price, +sellerId, +categoryId, +conditionId); 
+  const createdProduct = await ProductService.createProduct(title, +price, +quantity, +sellerId, +categoryId, +conditionId); 
 
   const createdProductId = createdProduct.id;
 
-  const picturePath = `src/images/${createdProductId}-jpg`;
+  const picturePath = `src/images/${createdProductId}-p.jpg`;
 
   fs.renameSync(filePath, picturePath);
 
@@ -63,7 +63,7 @@ const deleteProduct = async (req, res, next) => {
 };
 
 const updateProduct = async (req, res, next) => {
-  const { title, price, categoryId, conditionId } = req.query;
+  const { title, price, quantity, categoryId, conditionId } = req.query;
   const { id: productId, sellerId } = req.product;
   
 
@@ -74,6 +74,7 @@ const updateProduct = async (req, res, next) => {
     productId,
     title,
     price,
+    quantity,
     categoryId,
     conditionId,
   });

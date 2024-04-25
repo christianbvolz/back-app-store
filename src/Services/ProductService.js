@@ -48,8 +48,8 @@ const getProductById = async (id) => {
   return product;
 };
 
-const createProduct = async (title, price, sellerId, categoryId, conditionId) => {
-  const product = await Product.create({ title, price, sellerId, categoryId, conditionId });
+const createProduct = async (title, price, quantity, sellerId, categoryId, conditionId) => {
+  const product = await Product.create({ title, price, quantity, sellerId, categoryId, conditionId });
   
   return product;
 };

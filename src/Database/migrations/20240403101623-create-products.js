@@ -15,6 +15,10 @@ module.exports = {
       price: {
         type: Sequelize.FLOAT,
       },
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       sellerId: {
         type: Sequelize.INTEGER,
         field: 'seller_id',

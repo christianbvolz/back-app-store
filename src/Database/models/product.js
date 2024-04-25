@@ -13,6 +13,10 @@ const buildModelProduct = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.FLOAT,
     },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     sellerId: {
       type: DataTypes.INTEGER,
       field: 'seller_id',
